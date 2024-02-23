@@ -119,7 +119,7 @@ class GridWorldEnv(gym.Env):
         
         # An episode is done iff the agent has reached the target
         terminated = np.array_equal(self._agent_location, self._target_location)
-        reward = 10 if terminated else -1  # Binary sparse rewards
+        reward = 10 if terminated else 0  # Binary sparse rewards
         observation = self._get_obs()
         info = self._get_info()
 
