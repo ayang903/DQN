@@ -68,14 +68,14 @@ class Agent():
     def choose_action(self, observation):
         if np.random.random() > self.epsilon: #take the best known action
             state = T.tensor(observation, dtype=T.float32).to(self.Q_eval.device) #take our current state (observation), turn into tensor, send to device
-            print(f"state: {state}")
+            # print(f"state: {state}")
             actions = self.Q_eval.forward(state) #remember, this gives out 4 outputs, take the index of biggest one
-            print(f"four actions: {actions}")
+            # print(f"four actions: {actions}")
             action = T.argmax(actions).item()
-            print(f"selected action: {action}")
+            # print(f"selected action: {action}")
         else:
             action = np.random.choice(self.action_space)
-            print(f"randomly selected action: {action}")
+            # print(f"randomly selected action: {action}")
         return action
     
     def learn(self):
@@ -99,16 +99,16 @@ class Agent():
         # tilt it towrads selecting maximal actions
 
         q_eval = self.Q_eval.forward(state_batch)[batch_index, action_batch]
-        print(f"Q_EVAL: {q_eval}")
+        # print(f"Q_EVAL: {q_eval}")
         q_next = self.Q_eval.forward(new_state_batch)
         q_next[terminal_batch] = 0.0
 
         # calculate the target values
         q_target = reward_batch + self.gamma *  T.max(q_next, dim=1)[0] #this is the purely greedy action
-        print(f"Q_TARGET: {q_target}")
+        # print(f"Q_TARGET: {q_target}")
 
         loss = self.Q_eval.loss(q_target, q_eval).to(self.Q_eval.device)
-        print(f"LOSS: {loss}")
+        # print(f"LOSS: {loss}")
         loss.backward()
         self.Q_eval.optimizer.step()
 

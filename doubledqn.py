@@ -71,14 +71,14 @@ class Agent():
     def choose_action(self, observation):
         if np.random.random() > self.epsilon: #take the best known action
             state = T.tensor(observation, dtype=T.float32).to(self.Q_eval.device) #take our current state (observation), turn into tensor, send to device
-            print(f"state: {state}")
+            # print(f"state: {state}")
             actions = self.Q_eval.forward(state) #remember, this gives out 4 outputs, take the index of biggest one
-            print(f"four actions: {actions}")
+            # print(f"four actions: {actions}")
             action = T.argmax(actions).item()
-            print(f"selected action: {action}")
+            # print(f"selected action: {action}")
         else:
             action = np.random.choice(self.action_space)
-            print(f"randomly selected action: {action}")
+            # print(f"randomly selected action: {action}")
         return action
     
     def learn(self):
