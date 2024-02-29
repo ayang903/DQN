@@ -19,12 +19,7 @@ class GridWorldEnv(gym.Env):
 
 
         
-        self.observation_space = spaces.Dict(
-            {
-                "agent": spaces.Box(low=0, high=1, shape=(16,), dtype=np.int64),
-                "target": spaces.Box(0, size - 1, shape=(2,), dtype=int),
-            }
-        )
+        self.observation_space = spaces.Box(low=0, high=1, shape=(16,), dtype=np.int64)
 
         # We have 4 actions, corresponding to "right", "up", "left", "down", "right"
         self.action_space = spaces.Discrete(4)
@@ -55,7 +50,7 @@ class GridWorldEnv(gym.Env):
         self.clock = None
 
     def _get_obs(self):
-        return {"agent": self.encode_agent_position(self._agent_location), "target": self._target_location}
+        return self.encode_agent_position(self._agent_location)
 
     def _get_info(self):
         return {
